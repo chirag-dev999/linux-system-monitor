@@ -116,7 +116,7 @@ class SystemMonitor(QMainWindow):
 
         ingpu= get_ingpu_usage()
         self.ingpu_history.append(ingpu)
-        self.lbl_ingpu.setText(f"INTEGRATED GPU {ingpu}%")
+        self.lbl_ingpu.setText(f"Integrated GPU {ingpu}%")
         self.ingpu_curve.setData(list(self.ingpu_history))
 
         mem = get_memory_usage()

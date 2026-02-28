@@ -6,3 +6,6 @@ def get_uptime():
     minutes = int((seconds % 3600) // 60)
 
     return hours, minutes
+
+hours, minutes=get_uptime()
+print(f"{hours} hours:{minutes} minutes")

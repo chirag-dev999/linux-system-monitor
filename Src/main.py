@@ -15,6 +15,7 @@ from process import get_processes
 from gpu_temp import get_gpu_temp
 from gpu    import get_gpu_usage
 from in_gpu import get_ingpu_usage
+from uptime import get_uptime
 pg.setConfigOptions(antialias=True)
 
 HISTORY = 60
@@ -72,14 +73,15 @@ class SystemMonitor(QMainWindow):
         layout.addWidget(make_label("System Monitor", size=14, color="#D8D8D8"))
 
         stats_row = QHBoxLayout()
-        self.lbl_cpu  = make_label("CPU: --%",      color="#d9ff00")
-        self.lbl_ingpu  = make_label("Integrated GPU: --%",      color="#35b40b")
-        self.lbl_gpu  = make_label("GPU: --%",      color="#00ff37")
-        self.lbl_gtemp = make_label("GPU temperature: --", color="#ff8400")
-        self.lbl_mem  = make_label("MEM: --%",      color="#2500b7")
-        self.lbl_proc = make_label("Processes: --", color="#9600b7")
+        self.lbl_cpu  = make_label("CPU: --%",      color="#fff200")
+        self.lbl_ingpu  = make_label("Integrated GPU: --%",      color="#00ff84")
+        self.lbl_gpu  = make_label("GPU: --%",      color="#00821c")
+        self.lbl_gtemp = make_label("GPU temperature: --", color="#ff7b00")
+        self.lbl_mem  = make_label("MEM: --%",      color="#00a2d4")
+        self.lbl_proc = make_label("Processes: --", color="#ff00a2")
+        self.lbl_upt= make_label("uptime: --", color="#8f00a4")
 
-        for lbl in (self.lbl_cpu, self.lbl_gpu, self.lbl_gtemp, self.lbl_ingpu, self.lbl_mem, self.lbl_proc):
+        for lbl in (self.lbl_cpu, self.lbl_gpu, self.lbl_gtemp, self.lbl_ingpu, self.lbl_mem, self.lbl_proc, self.lbl_upt):
             stats_row.addWidget(lbl)
         stats_row.addStretch()
         layout.addLayout(stats_row)
@@ -87,10 +89,10 @@ class SystemMonitor(QMainWindow):
         grid = QGridLayout()
         grid.setSpacing(10)
 
-        cpu_chart,  self.cpu_curve  = make_chart("CPU Usage (%)",    "#d9ff00")
-        gpu_chart,  self.gpu_curve  = make_chart("GPU Usage (%)",    "#00ff37")
-        ingpu_chart, self.ingpu_curve = make_chart("INTEGRATED GPU Usage (%)",     "#35b40b")
-        mem_chart,  self.mem_curve  = make_chart("Memory Usage (%)", "#2500b7")
+        cpu_chart,  self.cpu_curve  = make_chart("CPU Usage (%)",    "#fff200")
+        gpu_chart,  self.gpu_curve  = make_chart("GPU Usage (%)",    "#00821c")
+        ingpu_chart, self.ingpu_curve = make_chart("INTEGRATED GPU Usage (%)",     "#00ff84")
+        mem_chart,  self.mem_curve  = make_chart("Memory Usage (%)", "#00a2d4")
 
         grid.addWidget(cpu_chart,  0, 0)
         grid.addWidget(gpu_chart,  0, 1)
@@ -126,6 +128,9 @@ class SystemMonitor(QMainWindow):
 
         running, total = get_processes()
         self.lbl_proc.setText(f"Processes: {running} / {total}")
+
+        hours, minutes= get_uptime()
+        self.lbl_upt.setText(f"Uptime: {hours} hours {minutes} mins")
 
         
 
